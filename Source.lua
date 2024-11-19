@@ -735,14 +735,14 @@ function redzlib:MakeWindow(Configs)
 		Position = UDim2.new(1, -10, 0.5),
 		AnchorPoint = Vector2.new(1, 0.5),
 		BackgroundTransparency = 1,
-		Image = "rbxassetid://18285114199",
+		Image = "rbxassetid://10747384394",
 		AutoButtonColor = false,
 		Name = "Close"
 	})
 	
 	local MinimizeButton = SetProps(CloseButton:Clone(), {
 		Position = UDim2.new(1, -35, 0.5),
-		Image = "rbxassetid://18285114199",
+		Image = "rbxassetid://10734896206",
 		Name = "Minimize"
 	})
 	
