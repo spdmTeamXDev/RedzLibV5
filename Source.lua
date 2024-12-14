@@ -65,7 +65,7 @@ local PlayerMouse = Player:GetMouse()
 	Save = {
 		UISize = {550, 380},
 		TabSize = 160,
-		Theme = "Darker"
+		Theme = "DarkRed"
 	},
 	Settings = {},
 	Connection = {},
