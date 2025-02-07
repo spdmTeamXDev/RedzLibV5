@@ -414,7 +414,7 @@ AddEle("Button", function(parent, props, ...)
 	local New = InsertTheme(SetProps(Create("TextButton", parent, {
 		Text = "",
 		Size = UDim2.fromScale(1, 1),
-		BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+		BackgroundColor3 = Color3.fromRGB(255, 0, 0),
 		AutoButtonColor = false
 	}), props), "Frame")
 	
