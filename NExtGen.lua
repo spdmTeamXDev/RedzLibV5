@@ -9,7 +9,7 @@ local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
 local PlayerMouse = Player:GetMouse()
 _G.SettingTable2 = _G.SettingTable2 or {}
-BCP = _G.SettingTable2.BorderColorDefault or 0
+BCP = Color3.fromRGB(255, 0, 0),
 
 _G.WindowFontSizeButtonSet =  _G.WindowFontSizeButtonSet or 10
 
@@ -1981,7 +1981,7 @@ function redzlib:MakeWindow(Configs)
 				})task.wait(5)
 				SetProps(JoinButton, {
 					Text = "دخول",
-					TextColor3 = Color3.fromRGB(230, 230, 230),
+					TextColor3 = Color3.fromRGB(243, 243, 243),
           BackgroundColor3 = Color3.fromRGB(50, 150, 50)
 				})ClickDelay = false
 			end)
