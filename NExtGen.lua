@@ -1,3 +1,4 @@
+-- Sorry redz, I had to make some modifications to customize it :(
 local MarketplaceService = game:GetService("MarketplaceService")
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
@@ -7,6 +8,10 @@ local CoreGui = game:GetService("CoreGui")
 local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
 local PlayerMouse = Player:GetMouse()
+_G.SettingTable2 = _G.SettingTable2 or {}
+BCP = _G.SettingTable2.BorderColorDefault or 0
+
+_G.WindowFontSizeButtonSet =  _G.WindowFontSizeButtonSet or 10
 
 	local redzlib = {
 	Themes = {
@@ -53,7 +58,7 @@ local PlayerMouse = Player:GetMouse()
         ColorSequenceKeypoint.new(1.00, Color3.fromRGB(28, 23, 25.5))
     }),
     ["Color Hub 2"] = Color3.fromRGB(28, 28, 28),
-    ["Color Stroke"] = Color3.fromRGB(40, 40, 40),
+    ["Color Stroke"] = Color3.fromRGB(38, 38, 38),
     ["Color Theme"] = Color3.fromRGB(255, 0, 0),
     ["Color Text"] = Color3.fromRGB(240, 240, 240),
     ["Color Dark Text"] = Color3.fromRGB(180, 180, 180)
@@ -63,7 +68,7 @@ local PlayerMouse = Player:GetMouse()
 		Version = "1.1.0"
 	},
 	Save = {
-		UISize = {550, 380},
+		UISize = _G.SettingTable2.UISize or {550, 380},
 		TabSize = 160,
 		Theme = "DarkRed"
 	},
@@ -393,16 +398,26 @@ local function Make(Ele, Instance, props, ...)
 end
 
 AddEle("Corner", function(parent, CornerRadius)
+BorderColor = Color3.fromRGB(139, 0, 0)
 	local New = SetProps(Create("UICorner", parent, {
-		CornerRadius = CornerRadius or UDim.new(0, 7)
+		CornerRadius = CornerRadius or UDim.new(0, 10)
 	}), props)
+	
+	local border = Instance.new("UIStroke")
+  border.Thickness = BorderColor -- Ajuste a espessura da borda conforme necessário
+  border.Parent = parent
+  
+  spawn(function()
+            border.Color = Color3.fromRGB(139, 0, 0)
+  end)
+
 	return New
 end)
 
 AddEle("Stroke", function(parent, props, ...)
 	local args = {...}
 	local New = InsertTheme(SetProps(Create("UIStroke", parent, {
-		Color = Color3.fromRGB(255, 0, 0),
+		Color = args[1] or Theme["Color Stroke"],
 		Thickness = args[2] or 1,
 		ApplyStrokeMode = "Border"
 	}), props), "Stroke")
@@ -414,7 +429,7 @@ AddEle("Button", function(parent, props, ...)
 	local New = InsertTheme(SetProps(Create("TextButton", parent, {
 		Text = "",
 		Size = UDim2.fromScale(1, 1),
-		BackgroundColor3 = Color3.fromRGB(255, 0, 0),
+		BackgroundColor3 = Theme["Color Hub 2"],
 		AutoButtonColor = false
 	}), props), "Frame")
 	
@@ -448,7 +463,7 @@ local function ButtonFrame(Instance, Title, Description, HolderSize)
 		AnchorPoint = Vector2.new(0, 0.5),
 		BackgroundTransparency = 1,
 		TextTruncate = "AtEnd",
-		TextSize = 10,
+		TextSize = _G.WindowFontSizeButtonSet,
 		TextXAlignment = "Left",
 		Text = "",
 		RichText = true
@@ -462,7 +477,7 @@ local function ButtonFrame(Instance, Title, Description, HolderSize)
 		Position = UDim2.new(0, 12, 0, 15),
 		BackgroundTransparency = 1,
 		TextWrapped = true,
-		TextSize = 8,
+		TextSize = _G.WindowFontSizeButtonSet - 2,
 		TextXAlignment = "Left",
 		Text = "",
 		RichText = true
@@ -620,7 +635,10 @@ function redzlib:MakeWindow(Configs)
 		Rotation = 45
 	})MakeDrag(MainFrame)
 	
-	local MainCorner = Make("Corner", MainFrame)
+	BorderColor = 0.85
+  local MainCorner = Make("Corner", MainFrame)
+  BorderColor = Color3.fromRGB(139, 0, 0)
+	
 	
 	local Components = Create("Folder", MainFrame, {
 		Name = "Components"
@@ -767,13 +785,13 @@ function redzlib:MakeWindow(Configs)
 	local Window, FirstTab = {}, false
 	function Window:CloseBtn()
 		local Dialog = Window:Dialog({
-			Title = "Close",
-			Text = "You Want Close Ui?",
+			Title = "إغلاق",
+			Text = "هل انت متاكد انك تريد اغلاق السكربت؟",
 			Options = {
-				{"Confirm", function()
+				{"نعم انا متاكد", function()
 					ScreenGui:Destroy()
 				end},
-				{"Cancel"}
+				{"إلغاء"}
 			}
 		})
 	end
@@ -802,13 +820,21 @@ function redzlib:MakeWindow(Configs)
 		MainFrame.Visible = not MainFrame.Visible
 	end
 	function Window:AddMinimizeButton(Configs)
+	S = _G.SettingTable2.IconSize or 40
+    P = _G.SettingTable2.IconPosition or 0.122
 		local Button = MakeDrag(Create("ImageButton", ScreenGui, {
-			Size = UDim2.fromOffset(35, 35),
-			Position = UDim2.fromScale(0.15, 0.15),
+			Size = UDim2.fromOffset(S, S),
+			Position = UDim2.fromScale(P, P),
 			BackgroundTransparency = 1,
 			BackgroundColor3 = Theme["Color Hub 2"],
-			AutoButtonColor = false
+			AutoButtonColor = false,
+			ImageColor3 = Color3.fromRGB(255, 0, 0)
 		}))
+		
+		AMinimizeButton = function(ID)
+    Button.Image = "rbxassetid://" .. ID
+  end
+  
 		
 		local Stroke, Corner
 		if Configs.Corner then
@@ -975,7 +1001,7 @@ function redzlib:MakeWindow(Configs)
 			Font = Enum.Font.FredokaOne,
 			Text = TName,
 			TextColor3 = Theme["Color Text"],
-			TextSize = 10,
+			TextSize = _G.WindowFontSizeButtonSet -1,
 			TextXAlignment = Enum.TextXAlignment.Left,
 			TextTransparency = (FirstTab and 0.3) or 0,
 			TextTruncate = "AtEnd"
@@ -983,7 +1009,7 @@ function redzlib:MakeWindow(Configs)
 		
 		local LabelIcon = InsertTheme(Create("ImageLabel", TabSelect, {
 			Position = UDim2.new(0, 8, 0.5),
-			Size = UDim2.new(0, 13, 0, 13),
+			Size = UDim2.new(0, _G.WindowFontSizeButtonSet + 2, 0, _G.WindowFontSizeButtonSet + 2),
 			AnchorPoint = Vector2.new(0, 0.5),
 			Image = TIcon or "",
 			BackgroundTransparency = 1,
@@ -991,36 +1017,39 @@ function redzlib:MakeWindow(Configs)
 		}), "Text")
 		
 		local Selected = InsertTheme(Create("Frame", TabSelect, {
-			Size = FirstTab and UDim2.new(0, 4, 0, 4) or UDim2.new(0, 4, 0, 13),
-			Position = UDim2.new(0, 1, 0.5),
-			AnchorPoint = Vector2.new(0, 0.5),
-			BackgroundColor3 = Theme["Color Theme"],
-			BackgroundTransparency = FirstTab and 1 or 0
-		}), "Theme")Make("Corner", Selected, UDim.new(0.5, 0))
-		
-		local Container = InsertTheme(Create("ScrollingFrame", {
-			Size = UDim2.new(1, 0, 1, 0),
-			Position = UDim2.new(0, 0, 1),
-			AnchorPoint = Vector2.new(0, 1),
-			ScrollBarThickness = 1.5,
-			BackgroundTransparency = 1,
-			ScrollBarImageTransparency = 0.2,
-			ScrollBarImageColor3 = Theme["Color Theme"],
-			AutomaticCanvasSize = "Y",
-			ScrollingDirection = "Y",
-			BorderSizePixel = 0,
-			CanvasSize = UDim2.new(),
-			Name = ("Container %i [ %s ]"):format(#ContainerList + 1, TName)
-		}, {
-			Create("UIPadding", {
-				PaddingLeft = UDim.new(0, 10),
-				PaddingRight = UDim.new(0, 10),
-				PaddingTop = UDim.new(0, 10),
-				PaddingBottom = UDim.new(0, 10)
-			}), Create("UIListLayout", {
-				Padding = UDim.new(0, 5)
-			})
-		}), "ScrollBar")
+      Size = FirstTab and UDim2.new(0, 4, 0, 4) or UDim2.new(0, 4, 0, 13),
+      Position = UDim2.new(0, 1, 0.5),
+      AnchorPoint = Vector2.new(0, 0.5),
+      BackgroundColor3 = Theme["Color Theme"],
+      BackgroundTransparency = FirstTab and 1 or 0
+    }), "Theme")
+    Make("Corner", Selected, UDim.new(0.5, 0))
+    BorderColor = Color3.fromRGB(139, 0, 0)
+    
+		local Container = InsertTheme(Create("ScrollingFrame", Containers, {
+      Size = UDim2.new(1, 0, 1, 0),
+      Position = UDim2.new(0, 0, 1),
+      AnchorPoint = Vector2.new(0, 1),
+      ScrollBarThickness = 1.5,
+      BackgroundTransparency = 1,
+      ScrollBarImageTransparency = 0.2,
+      ScrollBarImageColor3 = Theme["Color Theme"],
+      AutomaticCanvasSize = "Y",
+      ScrollingDirection = "Y",
+      BorderSizePixel = 0,
+      CanvasSize = UDim2.new(),
+      Visible = not FirstTab,
+      Name = "Container"
+    }, {
+      Create("UIPadding", {
+        PaddingLeft = UDim.new(0, 10),
+        PaddingRight = UDim.new(0, 10),
+        PaddingTop = UDim.new(0, 10),
+        PaddingBottom = UDim.new(0, 10)
+      }), Create("UIListLayout", {
+        Padding = UDim.new(0, 5)
+      })
+    }), "ScrollBar")
 		
 		table.insert(ContainerList, Container)
 		
@@ -1850,11 +1879,11 @@ function redzlib:MakeWindow(Configs)
 				Size = UDim2.new(1, -14, 0, 16),
 				AnchorPoint = Vector2.new(0.5, 1),
 				Position = UDim2.new(0.5, 0, 1, -7),
-				Text = "دخول",
+				Text = "انتهى... سيرفير تليگرام يمكنك دخول",
 				Font = Enum.Font.FredokaOne,
 				TextSize = 12,
-				TextColor3 = Color3.fromRGB(220, 220, 220),
-				BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+				TextColor3 = Color3.fromRGB(230, 230, 230),
+				BackgroundColor3 = Color3.fromRGB(50, 150, 50)
 			})Make("Corner", JoinButton, UDim.new(0, 5))
 			
 			local ClickDelay
@@ -1870,8 +1899,8 @@ function redzlib:MakeWindow(Configs)
 				})task.wait(5)
 				SetProps(JoinButton, {
 					Text = "دخول",
-					BackgroundColor3 = Color3.fromRGB(255, 0, 0),
-					TextColor3 = Color3.fromRGB(220, 220, 220)
+					BackgroundColor3 = Color3.fromRGB(50, 150, 50),
+					TextColor3 = Color3.fromRGB(230, 230, 230)
 				})ClickDelay = false
 			end)
 			
