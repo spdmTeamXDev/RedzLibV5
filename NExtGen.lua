@@ -53,7 +53,7 @@ local PlayerMouse = Player:GetMouse()
         ColorSequenceKeypoint.new(1.00, Color3.fromRGB(28, 23, 25.5))
     }),
     ["Color Hub 2"] = Color3.fromRGB(28, 28, 28),
-    ["Color Stroke"] = Color3.fromRGB(255, 0, 0),
+    ["Color Stroke"] = Color3.fromRGB(40, 40, 40),
     ["Color Theme"] = Color3.fromRGB(255, 0, 0),
     ["Color Text"] = Color3.fromRGB(240, 240, 240),
     ["Color Dark Text"] = Color3.fromRGB(180, 180, 180)
@@ -402,7 +402,7 @@ end)
 AddEle("Stroke", function(parent, props, ...)
 	local args = {...}
 	local New = InsertTheme(SetProps(Create("UIStroke", parent, {
-		Color = args[1] or Theme["Color Stroke"],
+		Color = Color3.fromRGB(255, 0, 0),
 		Thickness = args[2] or 1,
 		ApplyStrokeMode = "Border"
 	}), props), "Stroke")
@@ -414,7 +414,7 @@ AddEle("Button", function(parent, props, ...)
 	local New = InsertTheme(SetProps(Create("TextButton", parent, {
 		Text = "",
 		Size = UDim2.fromScale(1, 1),
-		BackgroundColor3 = Theme["Color Hub 2"],
+		BackgroundColor3 = Color3.fromRGB(255, 0, 0)
 		AutoButtonColor = false
 	}), props), "Frame")
 	
