@@ -924,7 +924,7 @@ function redzlib:MakeWindow(Configs)
       Size = UDim2.fromScale(1, 0.35),
       Position = UDim2.fromScale(0, 1),
       AnchorPoint = Vector2.new(0, 1),
-      BackgroundColor3 = Theme["Color Hub 2"],
+      BackgroundColor3 = Color3.fromRGB(0,255,0),
       BackgroundTransparency = 1
     }, {
       Create("UIListLayout", {
@@ -961,7 +961,7 @@ function redzlib:MakeWindow(Configs)
       SetProps(Button, {
         Text = Name,
         Font = Enum.Font.GothamBold,
-        TextColor3 = Theme["Color Text"],
+        TextColor3 = Color3.fromRGB(0,255,0),
         TextSize = 12
       })
 
@@ -1980,7 +1980,7 @@ function redzlib:MakeWindow(Configs)
 				})task.wait(5)
 				SetProps(JoinButton, {
 					Text = "دخول",
-					TextColor3 = Color3.fromRGB(243, 243, 243),
+					TextColor3 = Color3.fromRGB(255,255,255),
           BackgroundColor3 = Color3.fromRGB(50, 150, 50)
 				})ClickDelay = false
 			end)
