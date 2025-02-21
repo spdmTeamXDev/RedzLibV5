@@ -287,7 +287,7 @@ local GetFlag, SetFlag, CheckFlag do
 end
 
 local ScreenGui = Create("ScreenGui", CoreGui, {
-	Name = "redz Library V5",
+	Name = "Next Gen Lib By Redz9999",
 }, {
 	Create("UIScale", {
 		Scale = UIScale,
@@ -834,10 +834,9 @@ function redzlib:MakeWindow(Configs)
     MainFrame.Visible = not MainFrame.Visible
   end
   function Window:AddMinimizeButton(Configs)
-    S = _G.SettingTable2.IconSize or 40
-    P = _G.SettingTable2.IconPosition or 0.122
+        P = _G.SettingTable2.IconPosition or 0.122
     local Button = MakeDrag(Create("ImageButton", ScreenGui, {
-      Size = UDim2.fromOffset(S, S),
+      Size = UDim2.fromOffset(50, 50),
       Position = UDim2.fromScale(P, P),
       BackgroundTransparency = 1,
       BackgroundColor3 = Theme["Color Hub 2"],
