@@ -307,23 +307,17 @@ Window:AddMinimizeButton({
 
 ### Dialog
 #### Make a Dialog
-```lua
-local Dialog = Window:Dialog({
-    Title = "Example Dialog",
-    Text = "This is a example dialog",
-    Options = {} -- Add Buttons directly, see below (Dialog's Functions)
-})
 ```
-#### Dialog's Functions
-```lua
--- Add button to Dialog
-Dialog:Button({
-    Title = "Close",
-    Callback = function ()
-        print("Dialog's Close Button")
-    end
+local Dialog = Window:RelzDialog({
+	Title = "",
+    Text = "",
+    Options = {
+		{"Buy Item", function()        
+		end},
+		{"Wear Item", function()      
+        end}
+	},
+	Image = "",
+	AutoResize = true
 })
-
--- Close the Dialog
-Dialog:Close()
 ```
